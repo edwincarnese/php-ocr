@@ -8,15 +8,19 @@ if(isset($_POST["login"])) {
     $password = $_POST["password"];
 
     $user = new User();
-    $result = $user->userLogin($username);
+    $result = $user->login($username);
 
     if($result) {
         if (password_verify($password, $result->password)) {
             session_start();
-            $_SESSION["adminID"] = $result->id;
-            $_SESSION["adminName"] = $result->username;
+            $_SESSION["userID"] = $result->id;
+            $_SESSION["userFullname"] = $result->name;
+            $_SESSION["userName"] = $result->username;
+            $_SESSION["userType"] = $result->user_type;
+            $_SESSION["userEstablishmentId"] = $result->establishment_id;
+            $_SESSION["userEstablishment"] = $result->establishment;
             
-            Toast::setToast("Welcome, Admin!", "success");
+            Toast::setToast("Welcome, {$result->name}!", "success");
             HeaderLocation::setLocation('../../dashboard');
         } 
         else {
