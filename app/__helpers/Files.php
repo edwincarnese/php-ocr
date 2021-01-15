@@ -10,7 +10,7 @@ class Files {
         //     $uploadOk = 0;
         // }
         
-        if ($_FILES["image"]["size"] > 500000) {
+        if ($_FILES["image"]["size"] > 5000000000) {
             $uploadOk = 0;
         }
 
