@@ -8,15 +8,16 @@ if(isset($_POST["create"])) {
         'name' => $_POST["barangay"], 
     ];
     $barangay = new Barangay();
-    $result = $barangay->getBarangayByName($data);
+    $isExists = $barangay->getByName($data);
     
-    if(!$result) {
-        $barangay->addBarangay($data);
-        Toast::setToast("New data successfully saved.", "success");
-    } 
-    else {
+    if($isExists) {
         Toast::setToast("Barangay is already exist.", "error");
-    }
+        HeaderLocation::setLocation('../../barangay');
+    } 
+
+    $barangay->store($data);
+    
+    Toast::setToast("New data successfully saved.", "success");
     HeaderLocation::setLocation('../../barangay');
 }
 
@@ -26,7 +27,7 @@ if(isset($_POST["update"])) {
         'name' => $_POST["bName"], 
     ];
     $barangay = new Barangay();
-    $barangay->updateBarangay($data);
+    $barangay->edit($data);
 
     Toast::setToast("Data successfully updated.", "success");
     HeaderLocation::setLocation('../../barangay');
@@ -36,7 +37,7 @@ if(isset($_POST["delete"])) {
     $barangayId = $_POST["barangayId"];
 
     $barangay = new Barangay();
-    $barangay->deleteBarangay($barangayId);
+    $barangay->destroy($barangayId);
 
     Toast::setToast("Data successfully deleted.", "success");
     HeaderLocation::setLocation('../../barangay');

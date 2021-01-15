@@ -1,6 +1,7 @@
 <?php
-    require_once(__DIR__."/app/__helpers/Pages.php");
     require_once(__DIR__."/app/__helpers/Session.php");
+    require_once(__DIR__."/app/__helpers/Guard.php");
+    require_once(__DIR__."/app/__helpers/Pages.php");
     $currentPage = new Pages("Barangay");
 ?>
 <!DOCTYPE html>
@@ -45,13 +46,19 @@
                   <tbody>
                   <?php 
                     require_once(__DIR__."/app/model/barangay.php");
-                    $barangay = (new Barangay())->getBarangay();
+                    $barangay = (new Barangay())->getAll();
                     foreach($barangay as $barangay) {
                       ?>
                         <tr>
                           <td><?php echo 'B-000'.$barangay->id ?></td>
                           <td><?php echo $barangay->name ?></td>
-                          <td class="center"><?php echo $barangay->numberOfCases ?></td>
+                          <td class="center">
+                            <a href="people?barangay-id=<?php echo $barangay->id; ?>" target="_blank">
+                              <span class="badge bg-success">
+                                <?php echo $barangay->numberOfCases; ?>
+                              </span>
+                            </a>
+                          </td>
                           <td class="center">
                             <i class="nav-icon text-warning fas fa-pencil-alt pointer mr-3" onclick="editBarangay('<?php echo $barangay->id ?>', '<?php echo $barangay->name ?>')"></i>
                             <i class="nav-icon text-danger fas fa-trash-alt pointer" onclick="deleteBarangay('<?php echo $barangay->id ?>', '<?php echo $barangay->name ?>')"></i>
@@ -86,9 +93,9 @@
 <script>
   $(function () {
     $("#dataTable").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
+      "responsive": true, "lengthChange": true, "autoWidth": false,
+      "buttons": ["excel", "pdf", "print"]
+    }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
   });
 </script>
 <script type="text/javascript">
