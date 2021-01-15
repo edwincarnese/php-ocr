@@ -14,7 +14,7 @@ if(isset($_POST["image"])) {
 
     $imageTexts = OCR::image($uploadedFile);
     $barangay = new Barangay();
-    $searchBrgy = $barangay->getBarangayWildCardSearch($imageTexts);
+    $searchBrgy = $barangay->searchTextFromImage($imageTexts);
     $brgyId = null;
     if($searchBrgy) {
         $brgyId = $searchBrgy->id;
