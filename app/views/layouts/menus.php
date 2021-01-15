@@ -15,7 +15,8 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Administrator</a>
+          <a href="#" class="d-block"><?php echo $_SESSION["userFullname"]; ?></a>
+          <small style="color: #c2c7d0;"><?php echo $_SESSION["userEstablishment"]; ?></small>
         </div>
       </div>
 
@@ -33,8 +34,8 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview <?php echo $currentPage->setCurrentOpenMenuPage(["people", "barangay"]); ?>">
-            <a href="#" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["people", "barangay"]); ?>">
+          <li class="nav-item has-treeview <?php echo $currentPage->setCurrentOpenMenuPage(["people", "barangay", "establishment", "users"]); ?>">
+            <a href="#" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["people", "barangay" ,"establishment", "users"]); ?>">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Management
@@ -49,14 +50,36 @@
                 </a>
               </li>
             </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./barangay" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["barangay"]); ?>">
-                  <i class="fas fa-house-user nav-icon"></i>
-                  <p>Barangay</p>
-                </a>
-              </li>
-            </ul>
+            <?php
+              if($_SESSION['userType'] == "Admin") {
+                ?>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="./barangay" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["barangay"]); ?>">
+                        <i class="fas fa-house-user nav-icon"></i>
+                        <p>Barangay</p>
+                      </a>
+                    </li>
+                  </ul>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="./establishment" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["establishment"]); ?>">
+                        <i class="fas fa-building nav-icon"></i>
+                        <p>Establishment</p>
+                      </a>
+                    </li>
+                  </ul>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="./users" class="nav-link <?php echo $currentPage->setCurrentMenuPage(["users"]); ?>">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Users</p>
+                      </a>
+                    </li>
+                  </ul>
+                <?php
+              }
+            ?>
           </li>
           <li class="nav-header">AUTHENTICATION</li>
           <li class="nav-item has-treeview">
