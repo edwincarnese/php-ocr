@@ -23,45 +23,101 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-6 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>
-                  <?php 
-                    require_once(__DIR__."/app/model/barangay.php");
-                    echo (new Barangay())->getNumberOfBarangay()->noOfBrgy;
-                  ?>
-                </h3>
-                <p>Barangay</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-house-user"></i>
-              </div>
-              <a href="barangay" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-6 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>
-                  <?php 
-                    require_once(__DIR__."/app/model/people.php");
-                    echo (new People())->getNumberOfPeople()->noOfPeople;
-                  ?>
-                </h3>
-                <p>People</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-user-friends"></i>
-              </div>
-              <a href="people" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
+          <?php
+            if($_SESSION['userType'] == 'Admin') {
+              ?>
+                <div class="col-lg-3 col-3">
+                  <div class="small-box bg-warning">
+                    <div class="inner">
+                      <h3>
+                        <?php 
+                          require_once(__DIR__."/app/model/barangay.php");
+                          echo (new Barangay())->getCount()->noOfBrgy;
+                        ?>
+                      </h3>
+                      <p>Barangay</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-house-user"></i>
+                    </div>
+                    <a href="barangay" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-3">
+                  <div class="small-box bg-danger">
+                    <div class="inner">
+                      <h3>
+                        <?php 
+                          require_once(__DIR__."/app/model/people.php");
+                          echo (new People())->getCount()->noOfPeople;
+                        ?>
+                      </h3>
+                      <p>People</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-users"></i>
+                    </div>
+                    <a href="people" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-3">
+                  <div class="small-box bg-success">
+                    <div class="inner">
+                      <h3>
+                        <?php 
+                          require_once(__DIR__."/app/model/establishment.php");
+                          echo (new Establishment())->getCount()->noOfEstablishment;
+                        ?>
+                      </h3>
+                      <p>Establishment</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-building"></i>
+                    </div>
+                    <a href="establishment" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-3">
+                  <div class="small-box bg-info">
+                    <div class="inner">
+                      <h3>
+                        <?php 
+                          require_once(__DIR__."/app/model/user.php");
+                          echo (new User())->getCount()->noOfUser;
+                        ?>
+                      </h3>
+                      <p>Users</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-user-friends"></i>
+                    </div>
+                    <a href="users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+              <?php
+            } else {
+              ?>
+                <div class="col-lg-12 col-12">
+                  <div class="small-box bg-danger">
+                    <div class="inner">
+                      <h3>
+                        <?php 
+                          require_once(__DIR__."/app/model/people.php");
+                          echo (new People())->getCountWithEstablishment($_SESSION['userEstablishmentId'])->noOfPeople;
+                        ?>
+                      </h3>
+                      <p>People</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-users"></i>
+                    </div>
+                    <a href="people" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+              <?php
+            }
+          ?>
         </div>
       </div><!-- /.container-fluid -->
     </section>
