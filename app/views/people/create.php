@@ -10,14 +10,26 @@
             <div class="modal-body">
                 <form role="form" id="createForm" action="app/controller/people.php" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="image">File input</label>
+                        <label for="front_image">Front image</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="image" id="image">
-                                <label class="custom-file-label" for="image">Choose file</label>
+                                <input type="file" class="custom-file-input" name="front_image" id="front_image" required>
+                                <label class="custom-file-label" for="front_image">Choose file</label>
                             </div>
                             <div class="input-group-append">
-                                <span class="input-group-text" id="">Upload</span>
+                                <span class="input-group-text">Upload</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="back_image">Back image</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="back_image" id="back_image" required>
+                                <label class="custom-file-label" for="back_image">Choose file</label>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Upload</span>
                             </div>
                         </div>
                     </div>

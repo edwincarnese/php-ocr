@@ -39,24 +39,70 @@
                     <th>Code Number</th>
                     <th>Full Name</th>
                     <th>Address</th>
-                    <th class="center">Image</th>
+                    <th class="center">Front Image</th>
+                    <th class="center">Back Image</th>
+                    <th class="center">Establishment</th>
+                    <th class="center">Status</th>
+                    <th class="center">Date Time</th>
                     <th class="center">Action</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php 
                     require_once(__DIR__."/app/model/people.php");
-                    $people = (new People())->getPeople();
+
+                    $establishment_id = null;
+                    $barangay_id = null;
+
+                    if($_SESSION['userType'] != 'Admin') {
+                      $establishment_id = $_SESSION['userEstablishmentId'];
+                    }
+
+                    if(isset($_GET['establishment-id'])) {
+                      $establishment_id = $_GET['establishment-id'];
+                    }
+
+                    if(isset($_GET['barangay-id'])) {
+                      $barangay_id = $_GET['barangay-id'];
+                    }
+                    
+                    $people = (new People())->getAll($establishment_id, $barangay_id);
                     foreach($people as $people) {
                       ?>
                         <tr>
-                          <td><?php echo 'P-000'.$people->id ?></td>
-                          <td><?php echo $people->fullname ?></td>
-                          <td><?php echo $people->address ?></td>
+                          <td><?php echo 'P-000'.$people->id; ?></td>
+                          <td><?php echo $people->fullname; ?></td>
+                          <td><?php echo $people->address; ?></td>
                           <td class="center">
-                            <a href="<?php echo $people->file_path ?>" target="_blank">
-                              <img src="<?php echo $people->file_path ?>" style="width: 100px;">
+                            <a href="<?php echo $people->front_id; ?>" target="_blank">
+                              <img src="<?php echo $people->front_id; ?>" style="width: 100px;">
                             </a>
+                          </td>
+                          <td class="center">
+                            <a href="<?php echo $people->back_id; ?>" target="_blank">
+                              <img src="<?php echo $people->back_id; ?>" style="width: 100px;">
+                            </a>
+                          </td>
+                          <td class="center"><?php echo $people->establishmentName; ?></td>
+                          <td class="center">
+                            <?php 
+                              if($people->status == 1) {
+                                ?>
+                                <span class="badge bg-success">
+                                    SUCCESS
+                                  </span>
+                                <?php 
+                              } else {
+                                ?>
+                                  <span class="badge bg-danger">
+                                    FAILED
+                                  </span>
+                                <?php 
+                              }
+                            ?>
+                          </td>
+                          <td class="center">
+                              <?php echo $people->created_at; ?>
                           </td>
                           <td class="center">
                             <i class="nav-icon text-warning fas fa-pencil-alt pointer mr-3" onclick="editPerson(<?php echo $people->id ?>)"></i>
@@ -92,9 +138,9 @@
 <script>
   $(function () {
     $("#dataTable").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
+      "responsive": true, "lengthChange": true, "autoWidth": false,
+      "buttons": ["excel", "pdf", "print"]
+    }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
   });
 </script>
 <script type="text/javascript">
